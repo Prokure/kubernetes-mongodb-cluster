@@ -25,6 +25,7 @@ spec:
             value: my_replica_set
         ports:
         - containerPort: 27017
+          hostPort: 27017
         volumeMounts:
         - name: mongo-replica-storage0
           mountPath: /data/db
@@ -59,6 +60,7 @@ spec:
             value: my_replica_set
         ports:
         - containerPort: 27017
+          hostPort: 27017
         volumeMounts:
         - name: mongo-replica-storage1
           mountPath: /data/db
