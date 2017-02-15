@@ -22,7 +22,11 @@ if [ ! -z "$mongo_node_name" ] && [ ! -z "$mongo_replica_set_name" ]; then
   done
   echo "MongoDB is ready"
   # Start replica set
-  mongo < ./replica_init.js
+  if [ $(mongo < ./replica_init.js | grep "ok\" : 0" | wc -l) -gt 0 ]; then
+    sed -ie 's/)/,{force:true})/g' replica_init.js
+    sed -ie 's/rs.initiate/rs.reconfig/g' replica_init.js  
+    mongo < ./replica_init.js    
+  fi
   tail -f /dev/null
 else
 	echo "Starting up in standalone mode"
